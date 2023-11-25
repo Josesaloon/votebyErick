@@ -38,29 +38,31 @@ def submit_form_selenium():
     options.add_argument('--headless')  # Run Chrome in headless mode
     driver = webdriver.Chrome(options=options)
 
-    # Submit the form using Selenium
-    url = 'https://swahilifashionweek.com/nomsignup.php'
-    driver.get(url)
-    time.sleep(2)  # Wait for the page to load (adjust as needed)
+    try:
+        # Submit the form using Selenium
+        url = 'https://swahilifashionweek.com/nomsignup.php'
+        driver.get(url)
+        time.sleep(2)  # Wait for the page to load (adjust as needed)
 
-    for key, value in form_data.items():
-        element = driver.find_element_by_name(key)
-        element.send_keys(value)
+        for key, value in form_data.items():
+            element = driver.find_element('name', key)
+            element.send_keys(value)
 
-    # Submit the form
-    submit_button = driver.find_element_by_css_selector('button[name="nominationsignup"]')
-    submit_button.click()
+        # Submit the form
+        submit_button = driver.find_element('css selector', 'button[name="nominationsignup"]')
+        submit_button.click()
 
-    # Wait for some time to allow potential JavaScript redirection
-    time.sleep(5)
+        # Wait for some time to allow potential JavaScript redirection
+        time.sleep(5)
 
-    # Return the current URL after potential redirection
-    current_url = driver.current_url
+        # Return the current URL after potential redirection
+        current_url = driver.current_url
 
-    # Close the WebDriver
-    driver.quit()
+        return current_url
 
-    return current_url
+    finally:
+        # Close the WebDriver
+        driver.quit()
 
 # Function to submit form using Playwright
 def submit_form_playwright(url_from_selenium: str):
@@ -105,7 +107,7 @@ def is_suspended():
 
 if __name__ == "__main__":
     successful_votes = 0
-    total_iterations = 10000000
+    total_iterations = 1  # Set to 1 for testing
 
     for _ in range(total_iterations):
         if is_suspended():
