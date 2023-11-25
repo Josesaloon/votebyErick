@@ -131,6 +131,7 @@ if __name__ == "__main__":
             print(f"Vote #{successful_votes} submitted successfully for JOSE SALON!")
 
         if successful_votes >= total_iterations:
+            
             break
 
     print("Total Number of Votes:", successful_votes)
