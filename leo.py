@@ -14,7 +14,7 @@ fake = Faker()
 def submit_form_selenium():
     # Generate fake data
     name = fake.name()
-    email = f"{name.split()[0].lower()}@boredintern.com"
+    email = f"{name.split()[0].lower()}@gmail.com"
     phone = fake.phone_number()
 
     # Form data with current timestamp
