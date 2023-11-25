@@ -15,7 +15,7 @@ fake = Faker()
 def submit_form_selenium():
     # Generate fake data
     name = fake.name()
-    email = f"{name.split()[0].lower()}@gmail.com"
+    email = f"{name.split()[0].lower()}@boredintern.com"
     phone = fake.phone_number()
 
     # Form data with current timestamp
@@ -25,7 +25,7 @@ def submit_form_selenium():
         'swfpphone': phone,
         'swfpgender': random.choice(['Male', 'Female']),
         'swfpregion': random.choice([
-            'Dar', 'Dodoma', 'Arusha', 'Kilimanjaro', 'Tanga', 'Morogoro', 'Pwani', 'Lindi',
+            'International', 'Dar', 'Dodoma', 'Arusha', 'Kilimanjaro', 'Tanga', 'Morogoro', 'Pwani', 'Lindi',
             'Mtwara', 'Ruvuma', 'Iringa', 'Mbeya', 'Singida', 'Tabora', 'Rukwa', 'Kigoma', 'Shinyanga', 'Kagera',
             'Mwanza', 'Mara', 'Manyara', 'Njombe', 'Katavi', 'Simiyu', 'Geita', 'Songwe', 'Unguja Kaskazini',
             'Unguja Kusini', 'Unguja Mjini Magharibi', 'Pemba Kaskazini', 'Pemba Kusini'
