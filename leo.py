@@ -6,6 +6,7 @@ import random
 import time
 from pyppeteer import launch
 from playwright.sync_api import sync_playwright, TimeoutError
+import os
 
 # Create Faker instance
 fake = Faker()
@@ -14,7 +15,7 @@ fake = Faker()
 def submit_form_selenium():
     # Generate fake data
     name = fake.name()
-    email = f"{name.split()[0].lower()}@gmail.com"
+    email = f"{name.split()[0].lower()}@boredintern.com"
     phone = fake.phone_number()
 
     # Form data with current timestamp
