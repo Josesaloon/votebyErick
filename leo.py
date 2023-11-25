@@ -1,11 +1,10 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import TimeoutException, ElementNotInteractableException
 from faker import Faker
 import random
 import time
 from pyppeteer import launch
-from playwright.sync_api import sync_playwright, TimeoutError, Page
-import os
+from playwright.sync_api import sync_playwright, TimeoutError
 
 # Create Faker instance
 fake = Faker()
@@ -30,7 +29,7 @@ def submit_form_selenium():
             'Unguja Kusini', 'Unguja Mjini Magharibi', 'Pemba Kaskazini', 'Pemba Kusini'
         ]),
         'swfpvote': '0',
-        'swfpstamp': '2023-11-25 20:44:12'
+        'swfpstamp': time.strftime("%Y-%m-%d %H:%M:%S")
     }
 
     # Set up Selenium WebDriver
@@ -45,12 +44,20 @@ def submit_form_selenium():
         time.sleep(2)  # Wait for the page to load (adjust as needed)
 
         for key, value in form_data.items():
-            element = driver.find_element('name', key)
-            element.send_keys(value)
+            try:
+                element = driver.find_element('name', key)
 
-        # Submit the form
+                # Check if the element is visible before sending keys
+                if element.is_displayed():
+                    element.send_keys(value)
+                else:
+                    print(f"Element {key} is not visible.")
+            except Exception as e:
+                print(f"An error occurred while locating element {key}: {e}")
+
+        # Use JavaScript to click the submit button
         submit_button = driver.find_element('css selector', 'button[name="nominationsignup"]')
-        submit_button.click()
+        driver.execute_script("arguments[0].click();", submit_button)
 
         # Wait for some time to allow potential JavaScript redirection
         time.sleep(5)
@@ -91,7 +98,7 @@ def submit_form_playwright(url_from_selenium: str):
                     print(f'Current URL (Playwright): {current_url}')
                     return True
 
-        except (TimeoutError, TargetClosedError) as e:
+        except (TimeoutError, ElementNotInteractableException) as e:
             print(f"An error occurred: {e}")
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
@@ -107,9 +114,9 @@ def is_suspended():
 
 if __name__ == "__main__":
     successful_votes = 0
-    total_iterations = 1  # Set to 1 for testing
+    total_iterations = 1000000
 
-    for _ in range(total_iterations):
+    while True:
         if is_suspended():
             print("Environment is suspended. Pausing execution.")
             while is_suspended():
