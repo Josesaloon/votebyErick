@@ -16,8 +16,8 @@ def submit_form_selenium():
     # Generate fake data
     name = fake.name()
     email = f"{name.split()[0].lower()}@gmail.com"
-    random_digits = fake.unique.random_number(digits=9)
-    phone = f"+255{random_digits}"
+    random_digits = fake.unique.random_number(digits=7)
+    phone = f"073{random_digits}"
 
     # Form data with current timestamp
     form_data = {
